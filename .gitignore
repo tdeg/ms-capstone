@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Editor
+.vscode
+
+# Misc
+mydeploy.sh
+init_commands.txt
