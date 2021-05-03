@@ -61,7 +61,7 @@ def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 
-def verify_password(clear_text_password, hashed_password) -> bool:
+def verify_password(clear_text_password: str, hashed_password: str) -> bool:
     """
     Hashes the incoming clear text password, and compares it to the existing hashed password
         in the database.
