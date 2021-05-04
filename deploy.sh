@@ -29,7 +29,7 @@ gcloud beta run deploy capstone-api \
     --port=8081 \
     --allow-unauthenticated \
     --timeout=${TIMEOUT} \
-    --set-env-vars="PROJECT_ID=${PROJECT_ID},env=prod" \
+    --set-env-vars="PROJECT_ID=${PROJECT_ID},ENV=prod" \
     --tag=${TAG} \
     --region=${REGION} \
     --service-account=${SERVICE_ACCOUNT} \
