@@ -18,17 +18,17 @@ database = []
 messages = []
 
 
-def check_user(new_user: User) -> bool:
+def check_user(incoming_user: User) -> bool:
     """
     Check to see if the user's credentials match what we have in our database.
 
-    :param data: The JSON body from the incoming request.
-    :type data: User
-    :return: Whether the user logged in succefully or not.
+    :param incoming_user: The JSON body from the incoming request.
+    :type incoming_user: User
+    :return: Whether the user logged in successfully or not.
     :rtype: bool
     """
     for user in database:
-        if user.email == new_user.email and verify_password(new_user.password, user.password) == True:
+        if user.email == incoming_user.email and verify_password(incoming_user.password, user.password) == True:
             return True
     return False
 
@@ -36,11 +36,11 @@ def check_user(new_user: User) -> bool:
 @app.post("/signup")
 async def create_user(new_user: User = Body(...)) -> JSONResponse:
     """
-    Creates a user.
+    Creates a new user.
 
-    :param new_user: The JSON body from the incoming request container the user's signup credentials.
+    :param new_user: The JSON body from the incoming request containing the user's signup credentials.
     :type new_user: User
-    :return: Whether the user was created succefully or not.
+    :return: Whether the new user was created successfully or not.
     :rtype: JSONResponse
     """
     for existing_user in database:
@@ -58,12 +58,12 @@ async def user_login(user: User = Body(...)) -> JSONResponse:
 
     :param user: The JSON body from the incoming request containing the user's credentials.
     :type user: User
-    :return: Whether the user logged in succefully or not.
+    :return: Whether the user logged in successfully or not.
     :rtype: JSONResponse
     """
     if check_user(user):
         return JSONResponse(content={"token": encode_token(user.email)}, status_code=200)
-    return JSONResponse(content={"error": "Wrong login details!"}, status_code=401)
+    return JSONResponse(content={"error": "wrong login details"}, status_code=401)
 
 
 @app.get("/unprotected")
@@ -91,7 +91,7 @@ async def protected(email=Depends(auth_wrapper)) -> JSONResponse:
 @app.post("/message")
 async def add_message(email=Depends(auth_wrapper), message: Message = Body(...)) -> JSONResponse:
     """
-    Add's a message the user's message to the database. Authorization is required.
+    Adds user's message to the database. Authorization is required.
 
     :param email: The email from the decoded JWT.
     :type email: str

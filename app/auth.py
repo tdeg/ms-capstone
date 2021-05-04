@@ -33,7 +33,7 @@ def access_secret_version(secret_id, version_id="latest") -> str:
     return response.payload.data.decode("UTF-8")
 
 
-# If environmental variable "ENV" is set to "prod", grab the secrets from GCP.
+# If the environmental variable "ENV" is set to "prod", grab the secrets from GCP.
 # else, pull from the local .env file.
 if os.environ.get("ENV") == "prod":
     JWT_SECRET = access_secret_version("JWT_SECRET", version_id="latest")
@@ -45,7 +45,7 @@ else:
 # Create the HTTP bear authentication scheme.
 security = HTTPBearer()
 
-# Helper for hasing passwords using the bcrypt hasing algorithm,
+# Helper for hashing passwords using the bcrypt hashing algorithm,
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
@@ -78,7 +78,7 @@ def verify_password(clear_text_password: str, hashed_password: str) -> bool:
 
 def encode_token(email: str) -> str:
     """
-    Creates a JSON Web Token, and encodes the user's email inside of it as the sub field.
+    Creates a JSON Web Token, and sets the user's email as the sub field.
 
     :param email: The user's email.
     :type email: str
@@ -103,9 +103,9 @@ def decode_token(token: str) -> str:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
         return payload["sub"]
     except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Signature has expired")
+        raise HTTPException(status_code=401, detail="signature has expired")
     except jwt.InvalidTokenError as e:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=401, detail="invalid token")
 
 
 def auth_wrapper(auth: HTTPAuthorizationCredentials = Security(security)) -> str:
