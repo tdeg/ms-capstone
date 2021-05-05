@@ -39,8 +39,8 @@ if os.environ.get("ENV") == "prod":
     JWT_SECRET = access_secret_version("JWT_SECRET", version_id="latest")
     JWT_ALGORITHM = access_secret_version("JWT_ALGORITHM", version_id="latest")
 else:
-    JWT_SECRET = config("SECRET")
-    JWT_ALGORITHM = config("ALGORITHM")
+    JWT_SECRET = config("JWT_SECRET")
+    JWT_ALGORITHM = config("JWT_ALGORITHM")
 
 # Create the HTTP bear authentication scheme.
 security = HTTPBearer()
