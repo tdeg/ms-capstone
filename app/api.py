@@ -48,7 +48,7 @@ async def create_user(new_user: User = Body(...)) -> JSONResponse:
             return JSONResponse(content={"account_created": "false", "error": "user exists"}, status_code=409)
     new_user.password = get_password_hash(new_user.password)
     database.append(new_user)
-    return JSONResponse(content={"account_created": "true"}, status_code=200)
+    return JSONResponse(content={"account_created": True}, status_code=200)
 
 
 @app.post("/login")
