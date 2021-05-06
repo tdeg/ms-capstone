@@ -78,7 +78,7 @@ async def unprotected() -> JSONResponse:
 
 
 @app.get("/protected")
-async def protected(email=Depends(auth_wrapper)) -> JSONResponse:
+async def protected(dependency=Depends(auth_wrapper)) -> JSONResponse:
     """
     Protected route. Authorization is required.
 
