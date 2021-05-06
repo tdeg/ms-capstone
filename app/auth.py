@@ -85,8 +85,9 @@ def encode_token(email: str) -> str:
     :return: The encoded JSON Web Token.
     :rtype: str
     """
+    current_time = int(time.time())
     expire_time = 60 * 5  # 5 minutes
-    payload = {"exp": int(time.time()) + expire_time, "iat": time.time(), "sub": email}
+    payload = {"exp": current_time + expire_time, "iat": current_time, "sub": email}
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
 
@@ -104,7 +105,7 @@ def decode_token(token: str) -> str:
         return payload["sub"]
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="signature has expired")
-    except jwt.InvalidTokenError as e:
+    except jwt.InvalidTokenError:
         raise HTTPException(status_code=401, detail="invalid token")
 
 
